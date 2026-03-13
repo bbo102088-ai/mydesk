@@ -220,15 +220,44 @@ MyDesk
 각 가설은 **검증 난이도**와 **측정 가능성**을 함께 명시한다.
 MVP 단계에서는 정밀한 통계보다 방향성 확인을 목표로 한다.
 
+#### 가설 인과 구조 (Causal Chain)
+
+MyDesk의 가치 사슬은 아래와 같은 인과 순서로 성립한다.
+**기능 가설(H2·H3·H4)이 각각 검증되어야 H1(컨텍스트 스위칭 감소)이 성립하고,
+H1이 성립해야 비로소 H5(장기 리텐션)가 기대 가능하다.**
+
+```
+H2 (피그마 접근 단축)  ─┐
+H3 (AI 전환 마찰 감소) ─┤→ H1 (전체 툴 전환 30% 감소) → H5 (2주 리텐션)
+H4 (태스크 파악 가속)  ─┘
+```
+
+> **논리**: H1은 결과 가설(outcome)이고 H2~H4는 원인 가설(driver)이다.
+> H2~H4 중 하나라도 실패하면 H1 달성은 어렵다.
+> H1 없이는 H5(습관 형성)가 발생할 동기가 부족하다.
+
+#### 우선순위 논리
+
+| 우선순위 | 가설 | 이유 |
+|---------|------|------|
+| 1차 검증 | H2 | 측정 용이(태스크 테스트), 피그마가 EMR 기획자의 핵심 툴 |
+| 1차 검증 | H3 | analytics.ts `ai_message_sent` 이벤트로 정량 측정 가능 |
+| 2차 검증 | H4 | 2주 실사용 데이터 필요, `task_status_changed` 이벤트 누적 후 판단 |
+| 2차 검증 | H1 | H2·H3·H4 검증 후 종합 판단, 자기 관찰 일지 병행 |
+| 3차 검증 | H5 | 2주 이상 지속 사용 데이터 수집 후 판단 (리텐션 스트릭) |
+
+> H2·H3을 먼저 검증하는 이유: 빠르게 측정 가능하고, 두 가설이 실패하면
+> H1·H5로 가는 인과 고리가 끊기므로 이른 피벗 판단이 가능하다.
+
+#### 가설별 상세
+
 | # | 가설 | 검증 기준 (성공) | 검증 기준 (실패) | 난이도 | 측정 도구 |
 |---|------|----------------|----------------|--------|----------|
-| H1 | MyDesk를 도입한 기획자는 기존 대비 외부 앱 전환 횟수가 줄어든다 | 자기 보고 기준 탭 전환 30% 이상 감소 | 변화 없거나 오히려 증가 | 높음 — 통제된 환경 필요 | 사용 전후 자기 관찰 일지 |
-| H2 | 피그마 퀵런처는 Figma 파일 접근 경로를 단축한다 | 사용자 5명 중 4명이 "기존보다 빠르다" 응답 | 절반 이상이 "차이 없다" 응답 | 낮음 — 태스크 테스트로 쉽게 측정 | 사용성 테스트 관찰 + 시간 측정 |
-| H3 | AI 어시스턴트를 대시보드 내에서 사용하면 AI 도구 전환 마찰이 줄어든다 | 인터뷰에서 "탭 안 열어도 된다"는 반응 3명 이상 | AI 어시스턴트 위젯 미사용 | 중간 — 정성적 검증 필요 | 인터뷰 + 행동 관찰 |
-| H4 | 업무 시트를 통해 태스크 현황 파악 시간이 줄어든다 | 2주 실사용 후 "기존 방식보다 파악이 빠르다" 자기 평가 | "Notion/Excel이 더 편하다" 응답 | 중간 — 기존 도구와 비교 평가 필요 | 사용 전후 설문 |
-| H5 | MyDesk를 브라우저 첫 탭으로 설정한 사용자는 2주 이상 지속 사용한다 | 5명 중 3명이 2주 후에도 메인 탭 유지 | 2주 내 대부분 기존 방식 복귀 | 낮음 — 장기 추적 가능 | 2주 후 재인터뷰 |
-
-> **가설 우선순위**: H2, H5는 측정이 용이해 1차 검증에서 확인. H1, H3, H4는 2차 인터뷰에서 정성적으로 확인.
+| H2 | 피그마 퀵런처는 Figma 파일 접근 경로를 단축한다 | 사용자 5명 중 4명이 "기존보다 빠르다" 응답 | 절반 이상이 "차이 없다" 응답 | 낮음 — 태스크 테스트로 쉽게 측정 | 사용성 테스트 + `figma_file_open` 이벤트 |
+| H3 | AI 어시스턴트를 대시보드 내에서 사용하면 AI 도구 전환 마찰이 줄어든다 | 일 평균 `ai_message_sent` 2회 이상 & "탭 안 열어도 된다" 반응 3명 이상 | AI 어시스턴트 위젯 `funnelConversion` 10% 미만 | 중간 — 정성+정량 병행 | 인터뷰 + analytics funnel |
+| H4 | 업무 시트를 통해 태스크 현황 파악 시간이 줄어든다 | 2주 실사용 후 `task_status_changed` 이벤트 주 5회 이상 & "기존 방식보다 빠르다" 자기 평가 | "Notion/Excel이 더 편하다" 응답 또는 이벤트 주 2회 미만 | 중간 — 기존 도구와 비교 평가 필요 | 이벤트 로그 + 사용 전후 설문 |
+| H1 | MyDesk를 도입한 기획자는 기존 대비 외부 앱 전환 횟수가 줄어든다 | 자기 보고 기준 탭 전환 30% 이상 감소 & H2·H3·H4 중 2개 이상 성공 | 변화 없거나 오히려 증가 | 높음 — H2·H3·H4 선행 필요 | 자기 관찰 일지 + 이벤트 로그 종합 |
+| H5 | MyDesk를 브라우저 첫 탭으로 설정한 사용자는 2주 이상 지속 사용한다 | `retentionStreak()` 기준 10일 이상 방문 (5명 중 3명) | 2주 내 대부분 기존 방식 복귀 (`retentionStreak` < 5일) | 낮음 — 장기 추적 가능 | analytics `retentionStreak` + 2주 후 재인터뷰 |
 
 ---
 
@@ -239,46 +268,75 @@ MVP 단계에서는 정밀한 통계보다 방향성 확인을 목표로 한다.
 외부 분석 서비스(GA, Mixpanel) 없이 **localStorage 기반 자체 이벤트 로그**로 측정한다.
 MVP 규모(1인 개발, 소수 테스터)에는 충분하다.
 
-**이벤트 로그 구조 (구현 예시):**
-```typescript
-// lib/analytics.ts
-type EventName =
-  | 'session_start'
-  | 'figma_file_open'
-  | 'ai_message_sent'
-  | 'task_status_changed'
-  | 'pomodoro_completed'
-  | 'widget_settings_opened';
+**실제 구현된 이벤트 목록 (`src/lib/analytics.ts`):**
 
-function logEvent(name: EventName, meta?: Record<string, string>) {
-  const key = 'mydesk:events';
-  const logs = JSON.parse(localStorage.getItem(key) ?? '[]');
-  logs.push({ name, ts: Date.now(), date: new Date().toISOString().slice(0, 10), ...meta });
-  // 최대 500건 유지
-  if (logs.length > 500) logs.splice(0, logs.length - 500);
-  localStorage.setItem(key, JSON.stringify(logs));
-}
-```
+| 이벤트 | 발생 시점 | 연결 가설 |
+|--------|----------|----------|
+| `session_start` | 앱 진입 시 (SessionTracker) | H1, H5 |
+| `figma_file_open` | 피그마 파일 카드 클릭 시 | H2 |
+| `ai_message_sent` | AI 직접 입력 전송 시 | H3 |
+| `ai_template_used` | 원클릭 템플릿 사용 시 | H3 |
+| `task_status_changed` | 태스크 상태 버튼 클릭 시 | H4 |
+| `task_added` | 새 태스크 추가 시 | H4 |
+| `pomodoro_session_completed` | 25분 집중 완료 시 | H1 |
+| `quick_app_launched` | 퀵앱 바 버튼 클릭 시 | H1 |
 
 **데이터 추출 방법 (브라우저 콘솔에서 실행):**
 ```javascript
+// 원시 이벤트 전체 조회
 JSON.parse(localStorage.getItem('mydesk:events') ?? '[]')
+
+// 날짜별 이벤트 집계 요약
+(await import('/src/lib/analytics.ts')).summarizeEvents()
+
+// 특정 이벤트 일별 카운트
+(await import('/src/lib/analytics.ts')).dailyCount('ai_message_sent')
+
+// 연속 방문 일수 (리텐션 스트릭)
+(await import('/src/lib/analytics.ts')).retentionStreak()
+
+// 기능 전환율 퍼널 (세션 대비 각 기능 사용률)
+(await import('/src/lib/analytics.ts')).funnelConversion()
 ```
+
+---
+
+#### 데이터 분석 방법론
+
+**① 리텐션 분석 (Retention Streak)**
+- `retentionStreak()` 함수: `session_start` 이벤트 기준 현재 기준 며칠 연속 방문했는지 계산
+- 판단 기준: 10일 이상 = H5 성공 / 5일 미만 = 조기 이탈 위험
+
+**② 퍼널 분석 (Funnel Conversion)**
+- `funnelConversion()` 함수: 세션 방문자 중 각 핵심 기능을 실제 사용한 비율 계산
+- 퍼널 단계: `session_start` → `figma_file_open` / `ai_message_sent` / `task_status_changed`
+- 기능별 전환율이 20% 미만이면 해당 위젯의 UX 개선 우선순위 상향
+
+**③ 기능 채택률 분석 (Feature Adoption Rate)**
+- 전체 이벤트 중 각 이벤트 유형의 비율 측정
+- 특정 기능이 5% 미만이면 → 접근성 문제 또는 필요성 부족으로 판단
+
+**④ 행동 패턴 분석 (Behavioral Pattern)**
+- `summarizeEvents()` 결과를 날짜별로 시각화해 요일별 사용 패턴 확인
+- 주 5일 이상 사용 여부가 H1 검증의 보조 지표
 
 ---
 
 #### 지표별 측정 세부 계획
 
-| 지표 | 목표값 | 측정 이벤트 | 계산 방식 | 수집 기간 |
-|------|--------|------------|----------|----------|
-| 일 방문 빈도 | 3회/일 이상 (보수적) | `session_start` | 날짜별 이벤트 그룹 카운트 | 2주 |
-| 피그마 퀵런처 사용률 | 등록 파일 1개 이상 + 주 3회 이상 클릭 | `figma_file_open` | 주간 이벤트 수 | 2주 |
-| AI 어시스턴트 사용 빈도 | 일 평균 2회 이상 | `ai_message_sent` | 날짜별 카운트 평균 | 2주 |
-| 태스크 완료율 | 등록 태스크 중 완료 전환 50% 이상 | localStorage 직접 조회 | `done` 상태 비율 | 2주 후 스냅샷 |
-| 2주 리텐션 | 5명 중 3명 지속 사용 | 2주 후 재인터뷰 확인 | 정성 응답 | 2주차 |
+| 지표 | 목표값 | 측정 방법 | 분석 함수 | 수집 기간 |
+|------|--------|----------|----------|----------|
+| 일 방문 빈도 | 3회/일 이상 | `session_start` 날짜별 카운트 | `dailyCount('session_start')` | 2주 |
+| 피그마 퀵런처 사용률 | 주 3회 이상 클릭 | `figma_file_open` 주간 합산 | `dailyCount('figma_file_open')` | 2주 |
+| AI 어시스턴트 사용 빈도 | 일 평균 2회 이상 | `ai_message_sent` + `ai_template_used` | `summarizeEvents()` | 2주 |
+| 태스크 관리 활성도 | 주 5회 이상 상태 변경 | `task_status_changed` 주간 합산 | `dailyCount('task_status_changed')` | 2주 |
+| 기능 전환율 (퍼널) | 세션 대비 각 기능 20% 이상 | 세션 수 대비 기능 이벤트 비율 | `funnelConversion()` | 2주 |
+| 연속 방문 (리텐션) | 10일 이상 연속 | 연속 방문 일수 | `retentionStreak()` | 2주 |
+| 2주 리텐션 (정성) | 5명 중 3명 지속 사용 | 2주 후 재인터뷰 확인 | 정성 응답 | 2주차 |
 
-> **목표값 조정 이유**: 초기 PRD의 "DAU 5회", "완료율 70%"는 근거 없이 낙관적이었다.
-> 실제 개인 업무 도구의 초기 정착률을 감안해 보수적으로 하향 조정.
+> **목표값 근거**: 개인 업무 도구 초기 정착률 벤치마크(Notion 1개월 리텐션 ~40%, Todoist DAU 패턴)를
+> 참고해 보수적으로 설정. 초기 5인 테스트 단계에서는 방향성 확인이 목적이며,
+> 통계적 유의성보다 정성 인터뷰와 병행해 해석한다.
 
 ---
 
