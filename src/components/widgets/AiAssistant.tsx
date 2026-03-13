@@ -175,7 +175,7 @@ export function AiAssistant() {
         ...prev,
         {
           role: "assistant",
-          content: data.content,
+          content: data.content ?? "",
           model: "llama-3.3-70b-versatile",
           timestamp: Date.now(),
         },
