@@ -1,3 +1,4 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css");
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
@@ -7,7 +8,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
+  --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -48,82 +49,269 @@
 }
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.809 0.105 251.813);
-  --chart-2: oklch(0.623 0.214 259.815);
-  --chart-3: oklch(0.546 0.245 262.881);
-  --chart-4: oklch(0.488 0.243 264.376);
-  --chart-5: oklch(0.424 0.199 265.638);
+  /* 기본 상태 자체를 진한 다크 네이비로 고정 */
+  --background: #0a0a1a;
+  --foreground: #d1d5db; /* 본문 텍스트 */
+  --card: rgba(255, 255, 255, 0.05);
+  --card-foreground: #f9fafb; /* 카드 제목 등 */
+  --popover: rgba(255, 255, 255, 0.05);
+  --popover-foreground: #f9fafb;
+  --primary: #6366f1; /* 보라 */
+  --primary-foreground: #0b1020;
+  --secondary: rgba(31, 41, 55, 0.9);
+  --secondary-foreground: #e5e7eb;
+  --muted: rgba(31, 41, 55, 0.7);
+  --muted-foreground: #6b7280; /* 보조 텍스트 */
+  --accent: #f97316; /* 오렌지 포인트 */
+  --accent-foreground: #0b1020;
+  --destructive: #ef4444;
+  --border: rgba(255, 255, 255, 0.1);
+  --input: rgba(15, 23, 42, 0.9);
+  --ring: #6366f1;
+  --chart-1: #6366f1;
+  --chart-2: #f97316;
+  --chart-3: #22c55e;
+  --chart-4: #a855f7;
+  --chart-5: #facc15;
   --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar: #050510;
+  --sidebar-foreground: #e5e7eb;
+  --sidebar-primary: #6366f1;
+  --sidebar-primary-foreground: #0b1020;
+  --sidebar-accent: rgba(255, 255, 255, 0.06);
+  --sidebar-accent-foreground: #e5e7eb;
+  --sidebar-border: rgba(255, 255, 255, 0.1);
+  --sidebar-ring: #6366f1;
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.809 0.105 251.813);
-  --chart-2: oklch(0.623 0.214 259.815);
-  --chart-3: oklch(0.546 0.245 262.881);
-  --chart-4: oklch(0.488 0.243 264.376);
-  --chart-5: oklch(0.424 0.199 265.638);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  /* 다크 모드 토글 시도 같은 팔레트 유지 */
+  --background: var(--background);
+  --foreground: var(--foreground);
+  --card: var(--card);
+  --card-foreground: var(--card-foreground);
+  --popover: var(--popover);
+  --popover-foreground: var(--popover-foreground);
+  --primary: var(--primary);
+  --primary-foreground: var(--primary-foreground);
+  --secondary: var(--secondary);
+  --secondary-foreground: var(--secondary-foreground);
+  --muted: var(--muted);
+  --muted-foreground: var(--muted-foreground);
+  --accent: var(--accent);
+  --accent-foreground: var(--accent-foreground);
+  --destructive: var(--destructive);
+  --border: var(--border);
+  --input: var(--input);
+  --ring: var(--ring);
+  --chart-1: var(--chart-1);
+  --chart-2: var(--chart-2);
+  --chart-3: var(--chart-3);
+  --chart-4: var(--chart-4);
+  --chart-5: var(--chart-5);
+  --sidebar: var(--sidebar);
+  --sidebar-foreground: var(--sidebar-foreground);
+  --sidebar-primary: var(--sidebar-primary);
+  --sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --sidebar-accent: var(--sidebar-accent);
+  --sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --sidebar-border: var(--sidebar-border);
+  --sidebar-ring: var(--sidebar-ring);
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+
+  html,
   body {
-    @apply bg-background text-foreground;
-  }
-  html {
     @apply font-sans;
+    background-color: #0a0a1a !important;
+    color: #d1d5db !important;
+    color-scheme: dark;
   }
 }
+
+/* 글래스 카드 강제 스타일 */
+[data-slot="card"] {
+  background-color: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  backdrop-filter: blur(40px) !important;
+  box-shadow:
+    0 30px 120px rgba(0, 0, 0, 0.65),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
+}
+
+/* ===== NIGHT SKY BACKGROUND ===== */
+
+/* 위젯/헤더 콘텐츠는 밤하늘보다 위 */
+body > header,
+body > main {
+  position: relative;
+  z-index: 1;
+}
+
+.night-sky {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* 별 공통 베이스 — 1px 점에서 box-shadow로 분산 */
+.night-sky__stars {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  border-radius: 50%;
+  background: transparent;
+}
+
+/* 느린 별 그룹 (8개, 4s) */
+.night-sky__stars--slow {
+  box-shadow:
+    120px  45px 1px 0.5px rgba(255, 255, 255, 0.80),
+    280px  88px 0px 0.5px rgba(200, 220, 255, 0.65),
+    480px  32px 1px 1.0px rgba(255, 255, 255, 0.90),
+    725px  68px 0px 0.5px rgba(255, 255, 255, 0.70),
+    978px  50px 1px 0.5px rgba(200, 220, 255, 0.80),
+    162px 215px 0px 0.5px rgba(255, 255, 255, 0.60),
+    635px 172px 1px 1.0px rgba(255, 255, 255, 0.85),
+   1118px  92px 0px 0.5px rgba(200, 220, 255, 0.75);
+  animation: twinkle-slow 4.2s ease-in-out infinite alternate;
+}
+
+/* 중간 별 그룹 (10개, 3s) */
+.night-sky__stars--medium {
+  box-shadow:
+     58px 128px 1px 0.5px rgba(200, 220, 255, 0.70),
+    318px  52px 0px 0.5px rgba(255, 255, 255, 0.80),
+    572px 138px 1px 1.0px rgba(200, 220, 255, 0.90),
+    832px  82px 0px 0.5px rgba(255, 255, 255, 0.65),
+   1072px  62px 1px 0.5px rgba(200, 220, 255, 0.80),
+    208px 318px 0px 0.5px rgba(255, 255, 255, 0.70),
+    762px 228px 1px 0.5px rgba(200, 220, 255, 0.60),
+    418px 272px 0px 1.0px rgba(255, 255, 255, 0.85),
+    922px 192px 1px 0.5px rgba(200, 220, 255, 0.70),
+   1162px 158px 0px 0.5px rgba(255, 255, 255, 0.80);
+  animation: twinkle-medium 3.1s ease-in-out infinite alternate;
+  animation-delay: 0.7s;
+}
+
+/* 추가 별 그룹 (25개, 5s) */
+.night-sky__stars--extra {
+  box-shadow:
+     50px 160px 0px 0.5px rgba(255, 255, 255, 0.75),
+    175px  95px 1px 0.5px rgba(220, 230, 255, 0.60),
+    295px 245px 0px 1.0px rgba(255, 255, 255, 0.85),
+    430px 130px 1px 0.5px rgba(220, 230, 255, 0.65),
+    555px 280px 0px 0.5px rgba(255, 255, 255, 0.70),
+    680px  60px 1px 1.0px rgba(255, 255, 255, 0.90),
+    795px 195px 0px 0.5px rgba(220, 230, 255, 0.55),
+    910px 310px 1px 0.5px rgba(255, 255, 255, 0.80),
+   1025px 140px 0px 0.5px rgba(220, 230, 255, 0.70),
+   1145px  80px 1px 1.0px rgba(255, 255, 255, 0.85),
+    112px 360px 0px 0.5px rgba(255, 255, 255, 0.60),
+    258px 440px 1px 0.5px rgba(220, 230, 255, 0.75),
+    392px 395px 0px 1.0px rgba(255, 255, 255, 0.65),
+    520px 475px 1px 0.5px rgba(220, 230, 255, 0.55),
+    645px 420px 0px 0.5px rgba(255, 255, 255, 0.80),
+    772px 500px 1px 0.5px rgba(220, 230, 255, 0.60),
+    888px 455px 0px 1.0px rgba(255, 255, 255, 0.70),
+   1005px 530px 1px 0.5px rgba(220, 230, 255, 0.50),
+   1120px 395px 0px 0.5px rgba(255, 255, 255, 0.85),
+   1230px 465px 1px 0.5px rgba(220, 230, 255, 0.65),
+     35px 530px 0px 0.5px rgba(255, 255, 255, 0.55),
+    195px 590px 1px 1.0px rgba(220, 230, 255, 0.70),
+    355px 560px 0px 0.5px rgba(255, 255, 255, 0.80),
+    575px 615px 1px 0.5px rgba(220, 230, 255, 0.60),
+    820px 580px 0px 1.0px rgba(255, 255, 255, 0.75);
+  animation: twinkle-extra 5.4s ease-in-out infinite alternate;
+  animation-delay: 2.1s;
+}
+
+/* 빠른 별 그룹 (8개, 2s) */
+.night-sky__stars--fast {
+  box-shadow:
+    192px  78px 0px 0.5px rgba(255, 255, 240, 0.90),
+    388px 108px 1px 0.5px rgba(255, 255, 240, 0.65),
+    658px  52px 0px 1.0px rgba(255, 255, 240, 0.85),
+    892px 128px 1px 0.5px rgba(255, 255, 240, 0.70),
+   1008px  42px 0px 0.5px rgba(255, 255, 240, 0.90),
+    132px 258px 1px 0.5px rgba(255, 255, 240, 0.65),
+    512px 292px 0px 0.5px rgba(255, 255, 240, 0.80),
+   1058px 212px 1px 1.0px rgba(255, 255, 240, 0.75);
+  animation: twinkle-fast 2.3s ease-in-out infinite alternate;
+  animation-delay: 1.4s;
+}
+
+@keyframes twinkle-extra {
+  0%   { opacity: 0.20; }
+  50%  { opacity: 0.80; }
+  100% { opacity: 0.35; }
+}
+
+@keyframes twinkle-slow {
+  0%   { opacity: 0.25; }
+  100% { opacity: 1.00; }
+}
+
+@keyframes twinkle-medium {
+  0%   { opacity: 1.00; }
+  100% { opacity: 0.20; }
+}
+
+@keyframes twinkle-fast {
+  0%   { opacity: 0.35; }
+  60%  { opacity: 1.00; }
+  100% { opacity: 0.45; }
+}
+
+/* 초승달 — 연한 노란빛 + glow */
+.night-sky__moon {
+  position: absolute;
+  top: 88px;
+  left: 42px;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: #fef3c7;
+  box-shadow:
+    0 0 14px  7px rgba(253, 224,  71, 0.30),
+    0 0 36px 16px rgba(253, 224,  71, 0.12),
+    0 0 70px 30px rgba(254, 243, 199, 0.05);
+}
+
+/* 오버레이 원으로 크레센트(초승달) 모양 생성 */
+.night-sky__moon::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: 13px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #0a0a1a; /* body 배경과 동일 */
+}
+
+/* 하단 수평선 — 보라~남색 그라디언트 */
+.night-sky__horizon {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 160px;
+  background: linear-gradient(
+    to top,
+    rgba(80, 18, 120, 0.42),
+    rgba(45, 20,  90, 0.24),
+    rgba(18, 12,  60, 0.10),
+    transparent
+  );
+}
+
+
