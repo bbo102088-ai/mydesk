@@ -185,19 +185,21 @@ export function CalendarView() {
         {!isConnected ? (
           <SetupScreen onSave={(id) => setCalendarId(id)} />
         ) : (
-          <div className="overflow-hidden rounded-xl border border-white/10">
-            <iframe
-              src={buildEmbedUrl(calendarId, mode)}
-              style={{ border: 0 }}
-              width="100%"
-              height="480"
-              title="Google 캘린더"
-              className="block h-[300px] sm:h-[480px]"
-            />
-          </div>
-          <p className="mt-2 text-right text-[10px] text-white/20 sm:hidden">
-            PC에서 더 잘 보여요
-          </p>
+          <>
+            <div className="overflow-hidden rounded-xl border border-white/10">
+              <iframe
+                src={buildEmbedUrl(calendarId, mode)}
+                style={{ border: 0 }}
+                width="100%"
+                height="480"
+                title="Google 캘린더"
+                className="block h-[300px] sm:h-[480px]"
+              />
+            </div>
+            <p className="mt-2 text-right text-[10px] text-white/20 sm:hidden">
+              PC에서 더 잘 보여요
+            </p>
+          </>
         )}
       </CardContent>
     </Card>
