@@ -13,6 +13,8 @@ const WIDGET_LABELS: Record<WidgetType, string> = {
   PomodoroTimer: "뽀모도로 타이머",
   DailyNote: "데일리 노트",
   CommFeed: "커뮤니케이션 피드",
+  NewsFeed: "뉴스 피드",
+  CalendarView: "캘린더",
 };
 
 type SettingsModalProps = {
