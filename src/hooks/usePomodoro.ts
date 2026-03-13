@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { logEvent } from "@/lib/analytics";
 
 const FOCUS_SECONDS = 25 * 60;
 const BREAK_SECONDS = 5 * 60;
@@ -39,6 +40,9 @@ export function usePomodoro(): {
         }
 
         if (prev.mode === "focus") {
+          logEvent("pomodoro_session_completed", {
+            session: String(prev.completedSessions + 1),
+          });
           return {
             isRunning: false,
             mode: "break",

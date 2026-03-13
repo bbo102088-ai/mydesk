@@ -9,6 +9,7 @@ import {
   PenSquare,
   Sparkles,
 } from "lucide-react";
+import { logEvent } from "@/lib/analytics";
 
 type QuickApp = {
   id: string;
@@ -35,6 +36,8 @@ const APPS: QuickApp[] = [
  * - 1.5초 후에도 탭이 여전히 visible이면 앱 미설치로 판단 → 웹 열기
  */
 function openApp(app: QuickApp) {
+  logEvent("quick_app_launched", { app: app.id });
+
   if (!app.protocol) {
     window.open(app.webUrl, "_blank", "noopener,noreferrer");
     return;

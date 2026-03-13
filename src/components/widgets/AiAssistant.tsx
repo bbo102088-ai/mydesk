@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import type { AiMessage } from "@/types";
+import { logEvent } from "@/lib/analytics";
 import { Send, Zap, Cpu, ChevronDown, ChevronUp } from "lucide-react";
 
 // ── 타입 ─────────────────────────────────────────────────────────────────────
@@ -126,6 +127,14 @@ export function AiAssistant() {
   const sendMessage = async (text?: string) => {
     const content = (text ?? input).trim();
     if (!content || isLoading || activeTab !== "groq") return;
+
+    const isTemplate = QUICK_PROMPTS.some((qp) => qp.prompt === content);
+    if (isTemplate) {
+      const qp = QUICK_PROMPTS.find((q) => q.prompt === content)!;
+      logEvent("ai_template_used", { template: qp.label });
+    } else {
+      logEvent("ai_message_sent");
+    }
 
     const userMsg: AiMessage = {
       role: "user",

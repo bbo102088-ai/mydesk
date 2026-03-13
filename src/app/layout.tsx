@@ -4,6 +4,7 @@ import "./globals.css";
 
 import { AppHeader } from "@/components/layout/AppHeader";
 import { NightSky } from "@/components/layout/NightSky";
+import { SessionTracker } from "@/components/layout/SessionTracker";
 
 const fontMono = JetBrains_Mono({
   variable: "--font-geist-mono",
@@ -26,6 +27,7 @@ export default function RootLayout({
         className={`${fontMono.variable} min-h-dvh antialiased`}
       >
         <NightSky />
+        <SessionTracker />
         <AppHeader />
         {children}
       </body>

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { logEvent } from "@/lib/analytics";
 import { Plus, Trash2 } from "lucide-react";
 
 type TaskStatus = "todo" | "doing" | "done" | "hold";
@@ -98,7 +99,9 @@ export function WorkSheet() {
       tasks.map((t) => {
         if (t.id !== id) return t;
         const idx = STATUS_CYCLE.indexOf(t.status);
-        return { ...t, status: STATUS_CYCLE[(idx + 1) % STATUS_CYCLE.length] };
+        const nextStatus = STATUS_CYCLE[(idx + 1) % STATUS_CYCLE.length];
+        logEvent("task_status_changed", { from: t.status, to: nextStatus });
+        return { ...t, status: nextStatus };
       })
     );
   };
@@ -117,6 +120,7 @@ export function WorkSheet() {
       priority: newPriority,
     };
     setTasks([...tasks, task]);
+    logEvent("task_added", { priority: newPriority });
     setNewTask("");
     setNewDue("");
     setNewPriority("medium");

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { logEvent } from "@/lib/analytics";
 import type { FigmaFile } from "@/types";
 import { Plus, X, Trash2, ExternalLink } from "lucide-react";
 
@@ -303,6 +304,7 @@ export function FigmaLauncher() {
                       setContextMenuId(null);
                       return;
                     }
+                    logEvent("figma_file_open", { fileName: file.name });
                     window.open(file.url, "_blank", "noopener,noreferrer");
                   }}
                   onContextMenu={(e) => {
