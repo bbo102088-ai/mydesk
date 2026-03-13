@@ -5,6 +5,11 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@theme {
+  /* xs breakpoint 추가 — 480px */
+  --breakpoint-xs: 480px;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -130,6 +135,8 @@
     background-color: #0a0a1a !important;
     color: #d1d5db !important;
     color-scheme: dark;
+    /* 모바일 가로 스크롤 방지 */
+    overflow-x: hidden;
   }
 }
 
@@ -271,31 +278,69 @@ body > main {
   100% { opacity: 0.45; }
 }
 
-/* 초승달 — 연한 노란빛 + glow */
-.night-sky__moon {
+/* ── 달 (Apple Weather 스타일) ───────────────────────────────────────────── */
+
+/* 위치 래퍼 */
+.night-sky__moon-wrap {
   position: absolute;
-  top: 88px;
-  left: 42px;
-  width: 54px;
-  height: 54px;
-  border-radius: 50%;
-  background: #fef3c7;
-  box-shadow:
-    0 0 14px  7px rgba(253, 224,  71, 0.30),
-    0 0 36px 16px rgba(253, 224,  71, 0.12),
-    0 0 70px 30px rgba(254, 243, 199, 0.05);
+  top: 68px;
+  left: 44px;
+  width: 90px;
+  height: 90px;
 }
 
-/* 오버레이 원으로 크레센트(초승달) 모양 생성 */
+/* 대기권 글로우 — 달 뒤에 깔리는 크고 뿌연 원형 빛 */
+.night-sky__moon-halo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(253, 230, 138, 0.40) 0%,
+    rgba(253, 211,  77, 0.22) 35%,
+    rgba(251, 191,  36, 0.10) 55%,
+    transparent 72%
+  );
+  filter: blur(36px);
+}
+
+/* 달 본체 — filter:blur로 전체 윤곽 흐릿하게 */
+.night-sky__moon {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 38% 34%,
+    #FEFCE8  0%,
+    #FEF3C7 22%,
+    #FDE68A 52%,
+    #FCD34D 78%,
+    #FBBF24 100%
+  );
+  box-shadow:
+    inset -5px -5px 18px  7px rgba(161, 98,  7, 0.25),
+    0 0  28px 12px rgba(253, 230, 138, 0.65),
+    0 0  60px 22px rgba(253, 211,  77, 0.32),
+    0 0 115px 48px rgba(251, 191,  36, 0.14);
+  /* 달 외곽선 자체를 흐릿하게 — iOS 날씨앱 스타일 */
+  filter: blur(2.5px);
+}
+
+/* 초승달 컷아웃 — filter:blur 로 소프트 terminator */
 .night-sky__moon::before {
   content: '';
   position: absolute;
-  top: -5px;
-  left: 13px;
-  width: 50px;
-  height: 50px;
+  top: -8px;
+  left: 16px;
+  width: 86px;
+  height: 86px;
   border-radius: 50%;
-  background: #0a0a1a; /* body 배경과 동일 */
+  background: #0b0b1e;
+  filter: blur(9px);
 }
 
 /* 하단 수평선 — 보라~남색 그라디언트 */

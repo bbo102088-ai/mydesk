@@ -190,8 +190,8 @@ export function WorkSheet() {
               <tr className="text-white/35 text-xs border-b border-white/10">
                 <th className="text-left pb-2.5 font-medium">Task</th>
                 <th className="text-center pb-2.5 font-medium w-20">Status</th>
-                <th className="text-center pb-2.5 font-medium w-24">Due</th>
-                <th className="text-center pb-2.5 font-medium w-16">
+                <th className="hidden sm:table-cell text-center pb-2.5 font-medium w-24">Due</th>
+                <th className="hidden sm:table-cell text-center pb-2.5 font-medium w-16">
                   Priority
                 </th>
                 <th className="w-8 pb-2.5" />
@@ -201,7 +201,10 @@ export function WorkSheet() {
               {tasks.map((task) => (
                 <tr key={task.id} className="group transition-colors hover:bg-white/[0.03]">
                   <td className="py-2.5 pr-3 text-white/75 text-sm">
-                    {task.task}
+                    <span className="block">{task.task}</span>
+                    <span className="sm:hidden text-[10px] text-white/35">
+                      {task.dueDate ?? ""}{task.dueDate ? " · " : ""}{PRIORITY_LABELS[task.priority]}
+                    </span>
                   </td>
                   <td className="py-2.5 text-center">
                     <button
@@ -211,10 +214,10 @@ export function WorkSheet() {
                       {STATUS_LABELS[task.status]}
                     </button>
                   </td>
-                  <td className="py-2.5 text-center text-xs text-white/45">
+                  <td className="hidden sm:table-cell py-2.5 text-center text-xs text-white/45">
                     {task.dueDate ?? "—"}
                   </td>
-                  <td className="py-2.5 text-center">
+                  <td className="hidden sm:table-cell py-2.5 text-center">
                     <span
                       className={`text-xs px-2 py-0.5 rounded-full font-medium ${PRIORITY_STYLES[task.priority]}`}
                     >

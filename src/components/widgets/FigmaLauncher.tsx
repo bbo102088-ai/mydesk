@@ -273,7 +273,7 @@ export function FigmaLauncher() {
           {/* 빈 상태 */}
           {files.length === 0 ? (
             <div className="space-y-3 py-4">
-              <div className="pointer-events-none grid select-none grid-cols-4 gap-3 opacity-20">
+              <div className="pointer-events-none grid select-none grid-cols-3 gap-3 sm:grid-cols-4 opacity-20">
                 {Array.from({ length: 4 }).map((_, i) => (
                   <div
                     key={i}
@@ -290,7 +290,7 @@ export function FigmaLauncher() {
           ) : (
             /* 카드 그리드 */
             <div
-              className="grid grid-cols-4 gap-3"
+              className="grid grid-cols-3 gap-3 sm:grid-cols-4"
               onClick={() => setContextMenuId(null)}
             >
               {files.map((file) => (

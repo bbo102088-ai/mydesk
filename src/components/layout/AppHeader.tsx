@@ -21,7 +21,7 @@ export function AppHeader() {
               따뜻한 AI 비서, <span className="text-orange-300">MyDesk</span>
             </span>
           </div>
-          <p className="text-xs text-slate-400">
+          <p className="hidden sm:block text-xs text-slate-400">
             기획자님, 오늘도 차분하게 흐름을 이어가 볼까요?
           </p>
         </div>

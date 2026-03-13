@@ -149,11 +149,11 @@ export function AiBanner() {
         }`}
       />
 
-      <div className="relative flex items-center gap-4 pl-6 pr-3 py-4">
+      <div className="relative flex items-center gap-3 pl-4 pr-3 py-3 sm:gap-4 sm:pl-6 sm:py-4">
 
-        {/* 아이콘 */}
+        {/* 아이콘 — 모바일 숨김 */}
         <div
-          className={`shrink-0 flex h-10 w-10 items-center justify-center rounded-2xl border transition-all duration-500 ${
+          className={`hidden sm:flex shrink-0 h-10 w-10 items-center justify-center rounded-2xl border transition-all duration-500 ${
             isAdvice
               ? "bg-[linear-gradient(135deg,rgba(99,102,241,0.35),rgba(37,99,235,0.25))] border-indigo-400/30 shadow-[0_0_24px_rgba(99,102,241,0.30)]"
               : "bg-[linear-gradient(135deg,rgba(168,85,247,0.35),rgba(236,72,153,0.25))] border-purple-400/30 shadow-[0_0_24px_rgba(168,85,247,0.30)]"
@@ -197,7 +197,7 @@ export function AiBanner() {
 
           {/* 메시지 */}
           {isAdvice && (
-            <p className="text-sm font-medium text-white/90 leading-relaxed">
+            <p className="text-sm font-medium text-white/90 leading-relaxed line-clamp-3 sm:line-clamp-none">
               {tip}
             </p>
           )}
