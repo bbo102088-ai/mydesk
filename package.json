@@ -1,17 +1,18 @@
 {
-  "name": "mydesk_app",
+  "name": "mydesk",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "next lint"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.577.0",
+    "nanoid": "^5.1.6",
     "next": "^14.2.35",
     "radix-ui": "^1.4.3",
     "react": "^18.3.1",
