@@ -146,7 +146,7 @@ export function SettingsModal({ onClose }: SettingsModalProps) {
               <p className="mb-3 text-[11px] font-semibold uppercase tracking-widest text-white/35">
                 레이아웃 프리셋
               </p>
-              <div className="mb-3 grid grid-cols-2 gap-2">
+              <div className="mb-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
                 {allPresets.map((preset) => (
                   <div
                     key={preset.id}

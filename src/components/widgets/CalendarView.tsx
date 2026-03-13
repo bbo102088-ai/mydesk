@@ -95,15 +95,15 @@ export function CalendarView() {
     <Card>
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <CardTitle className="text-base">Google 캘린더</CardTitle>
+          <div className="flex items-center gap-2 min-w-0">
+            <CardTitle className="text-base shrink-0">Google 캘린더</CardTitle>
             {isConnected && (
-              <span className="truncate max-w-[140px] text-[10px] text-white/30">
+              <span className="truncate max-w-[80px] sm:max-w-[140px] text-[10px] text-white/30">
                 {calendarId}
               </span>
             )}
           </div>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1 shrink-0">
             {/* 모드 토글 */}
             {isConnected && (
               <div className="flex rounded-lg bg-white/[0.06] p-0.5">
@@ -111,7 +111,7 @@ export function CalendarView() {
                   <button
                     key={m}
                     onClick={() => setMode(m)}
-                    className={`rounded-md px-2 py-0.5 text-[11px] transition-colors ${
+                    className={`rounded-md px-1.5 sm:px-2 py-0.5 text-[10px] sm:text-[11px] transition-colors ${
                       mode === m
                         ? "bg-white/15 text-white font-medium"
                         : "text-white/40 hover:text-white/70"
@@ -192,9 +192,12 @@ export function CalendarView() {
               width="100%"
               height="480"
               title="Google 캘린더"
-              className="block"
+              className="block h-[300px] sm:h-[480px]"
             />
           </div>
+          <p className="mt-2 text-right text-[10px] text-white/20 sm:hidden">
+            PC에서 더 잘 보여요
+          </p>
         )}
       </CardContent>
     </Card>
