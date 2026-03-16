@@ -578,6 +578,85 @@ shadcn/ui 기본 Card는 흰 배경이다.
 
 ---
 
+## Day 4 — 2026-03-13 (저녁): AI 컨텍스트 강화 & Analytics 시스템
+
+### AI 어시스턴트 컨텍스트 주입 — "내 업무를 아는 AI"
+
+기본 챗봇과의 차별점이 뭔지 계속 고민했다.
+Claude나 ChatGPT나 질문에 답해주는 건 똑같다. MyDesk만의 가치가 있어야 한다.
+
+아이디어: 업무 시트에 이미 내 태스크가 다 들어있다. 이걸 AI 시스템 프롬프트에 넣으면?
+→ "EMR 진료화면 리뉴얼 — 기한 03-20, 우선순위 높음" 이런 정보를 AI가 알면
+  "기능 요구사항 정리해줘"라고만 해도 맥락을 이해하고 답한다.
+
+```typescript
+// 진행중/대기 태스크를 시스템 프롬프트에 주입
+const taskContext = tasks
+  .filter(t => t.status === 'doing' || t.status === 'todo')
+  .map(t => `- ${t.task} (마감: ${t.dueDate}, 우선순위: ${t.priority})`)
+  .join('\n');
+
+const systemPrompt = `당신은 EMR 업계 서비스 기획자를 위한 전문 AI 어시스턴트입니다.
+현재 진행 중인 업무:
+${taskContext}`;
+```
+
+컨텍스트 배너도 추가했다 — 어떤 태스크 정보가 AI에게 전달됐는지 펼침/접기로 확인 가능.
+"AI가 내 업무를 알고 있다"는 걸 사용자가 눈으로 확인할 수 있어야 신뢰가 생긴다.
+
+### EMR 특화 원클릭 템플릿 4종
+
+첫 메시지를 뭐라고 보내야 할지 모르는 사용자를 위한 진입 장벽 낮추기.
+EMR 기획자가 실제로 자주 쓰는 요청 패턴 4가지를 버튼으로:
+
+- **기능 요구사항 정리**: 기획 초반에 아이디어를 PRD 형태로 구조화할 때
+- **UX 개선안 도출**: 사용성 문제를 해결 아이디어 목록으로 바꿀 때
+- **사용자 인터뷰 질문**: 의사/간호사 대상 인터뷰 설계 시
+- **경쟁사 분석 프레임**: 타 EMR 제품 비교 시
+
+처음 대화가 시작되기 전에만 노출. 메시지가 하나라도 있으면 숨김.
+
+### Analytics 이벤트 측정 시스템
+
+제품 검증 단계에서 "사람들이 실제로 어떤 기능을 쓰는지"를 모르면 개선 방향이 없다.
+서버 DB 없이 localStorage에 이벤트 로그를 쌓는 방식으로 구현.
+
+```typescript
+// src/lib/analytics.ts
+export function logEvent(event: string, properties?: Record<string, unknown>) {
+  const events = JSON.parse(localStorage.getItem('mydesk:events') ?? '[]');
+  events.push({ event, properties, timestamp: new Date().toISOString() });
+  localStorage.setItem('mydesk:events', JSON.stringify(events));
+}
+```
+
+측정 항목:
+- `session_start`: 앱 진입 (SessionTracker 컴포넌트에서 자동)
+- `figma_file_open`: 피그마 파일 클릭
+- `ai_message_sent` / `ai_template_used`: AI 요청
+- `task_status_changed` / `task_added`: 업무 시트 활동
+- `pomodoro_session_completed`: 뽀모도로 집중 완료
+- `quick_app_launched`: 퀵 앱 바 실행
+
+브라우저 콘솔에서 즉시 조회:
+```javascript
+JSON.parse(localStorage.getItem('mydesk:events') ?? '[]')
+```
+
+서버 없이도 "어떤 위젯이 가장 많이 쓰이나?" 검증 가능. 이게 MVP 검증의 핵심이다.
+
+### 모바일 반응형 개선
+
+375px(iPhone SE) 에뮬레이션으로 확인하니 두 군데가 어색했다:
+
+1. **CalendarView**: iframe 높이가 고정 480px라 모바일에서 화면을 꽉 채움
+   → `h-[300px] sm:h-[480px]`로 반응형 처리. "PC에서 더 잘 보여요" 힌트 텍스트 추가.
+
+2. **SettingsModal 프리셋**: 3열 그리드가 모바일에서 너무 좁음
+   → `grid-cols-1 sm:grid-cols-2`로 변경
+
+---
+
 ## Day 4 — 2026-03-13 (야간): 최종 검증 & 마무리
 
 ### 최종 완성도 검증
@@ -775,3 +854,48 @@ page.tsx (Server Component)
 - 타입 스키마 초안을 코드 전에 문서로 먼저 고정
 - `dnd-kit` 라이브러리로 드래그 앤 드롭 위젯 재정렬 구현
 - Microsoft Graph API로 Teams 실시간 연동 (v1.1)
+
+---
+
+## Day 5~6 — 2026-03-14 ~ 03-16: 버그 수정 & 문서 완성
+
+### 버그 픽스 모음
+
+스프린트 직후 빌드 실행하면서 발견한 잔버그들을 처리했다.
+
+**WidgetType 라벨 누락 (`6b08e2d`)**
+`NewsFeed`, `CalendarView` 두 위젯이 `WidgetType` union에 추가됐는데
+한국어 표시 라벨 매핑에서 빠져 있었다. 설정 모달에서 "undefined"로 표시되는 문제.
+→ 라벨 맵에 `'NewsFeed': '뉴스 피드'`, `'CalendarView': '캘린더'` 추가.
+
+**AiAssistant `content` 타입 오류 (`db2653b`)**
+Groq API 응답의 `content` 필드가 `string | undefined`인데
+컴포넌트에서 `string`으로만 처리하고 있었다.
+→ 옵셔널 체이닝 + 기본값 `''`로 처리.
+
+**CalendarView Fragment 누락 (`5e5fd74`)**
+조건부 렌더링 시 `<>...</>` Fragment 없이 반환하다 JSX 에러 발생.
+→ Fragment 감싸기로 해결. 단순하지만 놓치기 쉬운 부분.
+
+**ESLint 빌드 경고 (`f5f3759`)**
+`next.config.ts`에서 ESLint 에러를 빌드 실패 조건으로 보지 않도록 설정.
+MVP 단계에서 경고 레벨은 개발 흐름을 막지 않는 방향으로.
+
+### PRD 문서 보강
+
+스프린트가 끝난 뒤 PRD를 다시 읽어보니 문서로서 부족한 부분이 눈에 띄었다.
+
+**검증 계획 강화 (`bcf6fef`)**
+"기능이 동작한다"는 것과 "제품 가설이 검증된다"는 건 다르다.
+→ 가설-지표-측정 인과구조로 검증 계획 재구성.
+→ analytics 이벤트별 분석 방법론 추가.
+→ 사용성 테스트 시나리오 구체화.
+
+**PRD 섹션 1.4~1.5 시장 규모·경쟁사 분석 추가 (`f018768`)**
+기획서로서 "왜 이 제품이 필요한가?"에 대한 시장 근거가 없었다.
+→ TAM/SAM/SOM 추정치와 경쟁사 포지셔닝 매트릭스 추가.
+
+**PRD 섹션 5 기술 스택 선정 근거 보강 (현재 작업)**
+기술 스택 테이블만 있었고 "왜 이 기술인가?"에 대한 설명이 없었다.
+DEVLOG Day 0에 기록한 의사결정 과정이 PRD에도 있어야 문서로서 완결성이 생긴다.
+→ 기술별 서브섹션으로 분리. 각 기술의 선정 근거 + 검토 대안 서술.

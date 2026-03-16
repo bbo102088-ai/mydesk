@@ -246,15 +246,43 @@ So that 툴 전환 없이 집중해서 일할 수 있다.
 
 ## 5. 기술 스택 (Tech Stack)
 
-| 레이어 | 기술 |
-|--------|------|
-| 프레임워크 | Next.js 14 (App Router) |
-| 언어 | TypeScript (strict) |
-| 스타일링 | Tailwind CSS v4 + shadcn/ui |
-| 상태 관리 | Zustand + persist |
-| AI API | Groq API (llama-3.3-70b-versatile) |
-| 데이터 | localStorage (MVP) |
-| 뉴스 | Google News RSS (서버사이드 파싱) |
+### 5.1 프레임워크 — Next.js 14 (App Router)
+
+- **선정 근거**: API Route 내장으로 AI API 키를 서버사이드에서만 처리 가능. Vercel 배포 용이. 향후 SSR/캐싱 활용 가능.
+- **검토 대안**:
+  - Vite + React: 빠르지만 API Route 미지원 → AI 키 클라이언트 노출 위험
+  - Remix: 기능적으로 우수하나 학습 곡선 대비 MVP 속도 우선
+
+### 5.2 언어 — TypeScript (strict)
+
+- **선정 근거**: `strict` 모드로 런타임 에러를 사전 방지. `any` 사용 금지 원칙으로 타입 안정성 확보.
+- **비고**: 초기 설정이 번거롭지만, 위젯 간 인터페이스 공유 시 타입 안전성이 필수적이라 판단.
+
+### 5.3 스타일링 — Tailwind CSS v4 + shadcn/ui
+
+- **선정 근거**: 유틸리티 기반 빠른 스타일링 + 재사용 가능한 UI 컴포넌트. 다크 글래스모피즘 테마 커스터마이징 용이.
+
+### 5.4 상태 관리 — Zustand + persist
+
+- **선정 근거**: 경량 전역 상태 관리 + localStorage 자동 영속화. 레이아웃 프리셋(REQ-02) 구현에 필수.
+- **비고**: 위젯 내부 데이터는 `useLocalStorage` 훅으로 분리하여, Zustand는 UI 메타 상태(보임/순서)만 담당.
+
+### 5.5 AI API — Groq API (llama-3.3-70b-versatile)
+
+- **선정 근거**: 무료 tier 제공, 응답 속도가 압도적으로 빠름. MVP 단계에서 비용 부담 없이 실시간 AI 기능 구현 가능.
+- **검토 대안**:
+  - OpenAI GPT-4o: 품질 우수하나 API 비용 부담
+  - Anthropic Claude API: 품질 최고 수준이나 월정액 구독 필요
+
+### 5.6 데이터 저장 — localStorage (MVP)
+
+- **선정 근거**: 서버 DB 없이 즉시 동작. 개인 대시보드 MVP 특성상 클라우드 동기화 불필요. 향후 v1.3에서 클라우드 동기화 전환 예정.
+
+### 5.7 뉴스 — Google News RSS (서버사이드 파싱)
+
+- **선정 근거**: 무료, 공개, 한국어 지원. 별도 파서 라이브러리 없이 regex로 XML 파싱 가능.
+- **검토 대안**:
+  - NewsAPI.org: 무료 플랜 하루 100건 제한 + CORS 이슈
 
 ---
 
