@@ -43,3 +43,13 @@ export type DailyNote = {
   checklist: { id: string; text: string; done: boolean }[];
 };
 
+export type CalendarEvent = {
+  id: string;
+  summary?: string;
+  start: { dateTime?: string; date?: string };
+  end: { dateTime?: string; date?: string };
+  location?: string;
+  colorId?: string;
+  htmlLink?: string;
+};
+
